@@ -43,16 +43,22 @@ def create_simple_db():
     db.commit()
     db.close()
 
-def get_points_for_room() -> list, list:
+def get_points_for_room(room) -> list, list, int:
     db = sqlite3.connect('server.db')
     sql = db.cursor()
-    for value in sql.execute('SELECT * FROM ')
+    x_points = []
+    y_points = []
+    for value in sql.execute('SELECT Point_X FROM points WHERE ID_Room = {room}'):
+        x_points.append(value)
+    for value in sql.execute('SELECT Point_Y FROM points WHERE ID_Room = {room}'):
+        y_points.append(value)
+    for value in sql.execute('SELECT Floor FROM rooms WHERE ID_Room = {room}'):
+        floor = value
+    return x_points
+    return y_points
 
-
-def draw_path():
-
-    """DRAWING THE PATH"""
-    img = plt.imread("Floor_1.png")
+def draw_path(floor,):
+    img = plt.imread("Floor_{floor}.png")
     fig, ax = plt.subplots()
     x = range(300)
     ax.imshow(img, extent=[0, 400, 0, 300])
@@ -62,4 +68,5 @@ def draw_path():
 
 if __name__ == '__main__':
     create_simple_db()
-    x_points, y_points  = get_points_for_room()
+    x_points, y_points, floor = get_points_for_room()
+    draw_path(floor)
