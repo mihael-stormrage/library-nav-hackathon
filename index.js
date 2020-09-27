@@ -19,7 +19,8 @@ app.use(express.static('views/images'));
 
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'views'));
-app.listen(3000);
+const port = process.env.PORT || 3000;
+app.listen(port);
 
 app.use('/form_handler', bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
